@@ -1,0 +1,31 @@
+---
+services:
+  backend:
+    image: tomcat-backend
+    build:
+      context: .
+      dockerfile: backend.Dockerfile
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://backend:8080/sample"]
+      start_period: 15s
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    
+
+  frontend:
+    image: httpd-frontend
+    build:
+      context: .
+      dockerfile: frontend.Dockerfile
+    ports:
+      - "80:80"
+    volumes:
+      - ./conf/httpd.conf:/usr/local/apache2/conf/httpd.conf
+      - ./conf/vhosts:/usr/local/apache2/conf/vhosts
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80/sample"]
+      start_period: 15s
+      interval: 30s
+      timeout: 10s
+      retries: 3
