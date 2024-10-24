@@ -1,2 +1,4 @@
 # vention_docker_compose
-vention docker compose task
+How to run:
+
+docker compose up --build -d
